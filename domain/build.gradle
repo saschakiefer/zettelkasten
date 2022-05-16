@@ -1,0 +1,7 @@
+plugins {
+    id 'zettelkasten.java-conventions'
+}
+
+dependencies {
+
+}
