@@ -1,0 +1,9 @@
+plugins {
+    id 'zettelkasten.java-conventions'
+}
+
+dependencies {
+    implementation project(':domain')
+    implementation project(':application')
+    testImplementation "org.mockito:mockito-core:3.+"
+}
