@@ -5,4 +5,6 @@ import com.saschakiefer.domain.vo.SlipNoteId;
 
 public interface CreateSlipNoteOutputPort {
     SlipNote retrieveSlipNote(SlipNoteId parentSlipNoteId);
+
+    SlipNoteId retrieveNextRootId();
 }

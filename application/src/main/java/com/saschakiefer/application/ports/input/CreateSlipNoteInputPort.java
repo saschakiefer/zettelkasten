@@ -12,7 +12,7 @@ public class CreateSlipNoteInputPort implements CreateSlipNoteUseCase {
     CreateSlipNoteOutputPort createSlipNoteOutputPort;
 
     @Override
-    public SlipNote createSlipNote(SlipNoteId parentSlipNoteId, String title) {
+    public SlipNote createSlipNote(String title, SlipNoteId parentSlipNoteId) {
         SlipNote parent = createSlipNoteOutputPort.retrieveSlipNote(parentSlipNoteId);
 
         SlipNoteId newId;
@@ -27,6 +27,16 @@ public class CreateSlipNoteInputPort implements CreateSlipNoteUseCase {
                 .slipNoteId(newId)
                 .title(title)
                 .parent(parent)
+                .build();
+    }
+
+    @Override
+    public SlipNote createSlipNote(String title) {
+        SlipNoteId newId = createSlipNoteOutputPort.retrieveNextRootId();
+
+        return SlipNote.builder()
+                .slipNoteId(newId)
+                .title(title)
                 .build();
     }
 }
