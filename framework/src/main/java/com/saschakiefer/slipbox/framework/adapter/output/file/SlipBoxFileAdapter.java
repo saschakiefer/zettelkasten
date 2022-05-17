@@ -12,6 +12,8 @@ import java.nio.file.attribute.BasicFileAttributes;
 import java.util.TreeSet;
 
 public class SlipBoxFileAdapter implements CreateSlipNoteOutputPort {
+    // Root Note Patter: "# - Filename"
+    String ROOT_NOTE_PATTERN = "\\d\\s-\\s.*";
 
     @Getter
     @Setter
@@ -30,11 +32,9 @@ public class SlipBoxFileAdapter implements CreateSlipNoteOutputPort {
             Files.walkFileTree(Paths.get(slipBoxDir), new SimpleFileVisitor<Path>() {
                 @Override
                 public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-                    if (!Files.isDirectory(file)) {
+                    if (!Files.isDirectory(file) && file.getFileName().toString().matches(ROOT_NOTE_PATTERN)) {
                         String[] components = file.getFileName().toString().split(SlipNote.DELIMITER);
-                        if (components.length > 1) {
-                            idList.add(components[0]);
-                        }
+                        idList.add(components[0]);
                     }
                     return FileVisitResult.CONTINUE;
                 }
