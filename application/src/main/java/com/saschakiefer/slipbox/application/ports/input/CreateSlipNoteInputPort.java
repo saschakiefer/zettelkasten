@@ -4,12 +4,15 @@ import com.saschakiefer.slipbox.application.ports.output.SlipNoteManagementOutpu
 import com.saschakiefer.slipbox.application.usecase.CreateSlipNoteUseCase;
 import com.saschakiefer.slipbox.domain.entity.SlipNote;
 import com.saschakiefer.slipbox.domain.vo.SlipNoteId;
-import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
-// @NoArgsConstructor // ToDo: Reset maybe after Quarkus is introduced?
-@AllArgsConstructor
+@NoArgsConstructor
 public class CreateSlipNoteInputPort implements CreateSlipNoteUseCase {
     SlipNoteManagementOutputPort slipNoteManagement;
+
+    public CreateSlipNoteInputPort(SlipNoteManagementOutputPort slipNoteManagement) {
+        this.slipNoteManagement = slipNoteManagement;
+    }
 
     @Override
     public SlipNote createSlipNote(String title, SlipNoteId parentSlipNoteId) {
@@ -28,7 +31,7 @@ public class CreateSlipNoteInputPort implements CreateSlipNoteUseCase {
                 .title(title)
                 .parent(parent)
                 .build();
-        
+
         return newSlipNote;
     }
 
