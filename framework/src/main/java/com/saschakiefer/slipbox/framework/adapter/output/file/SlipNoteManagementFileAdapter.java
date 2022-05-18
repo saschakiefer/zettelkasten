@@ -6,6 +6,9 @@ import com.saschakiefer.slipbox.domain.vo.SlipNoteId;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
@@ -14,6 +17,7 @@ import java.util.TreeSet;
 public class SlipNoteManagementFileAdapter implements SlipNoteManagementOutputPort {
     // Root Note Patter: "# - Filename"
     String ROOT_NOTE_PATTERN = "\\d\\s-\\s.*";
+    String FILE_EXTENSION = ".md";
 
     @Getter
     @Setter
@@ -52,7 +56,13 @@ public class SlipNoteManagementFileAdapter implements SlipNoteManagementOutputPo
     }
 
     @Override
-    public boolean persistSlipNote(SlipNote slipNote) {
-        throw new UnsupportedOperationException();
+    public void persistSlipNote(SlipNote slipNote) throws IOException {
+        BufferedWriter writer = new BufferedWriter(new FileWriter(
+                slipBoxDir + File.separator + slipNote.getFullTitle() + FILE_EXTENSION
+        ));
+
+        writer.write(slipNote.getContent());
+
+        writer.close();
     }
 }

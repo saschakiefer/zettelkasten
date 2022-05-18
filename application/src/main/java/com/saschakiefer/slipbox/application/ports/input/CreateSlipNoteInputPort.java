@@ -6,6 +6,8 @@ import com.saschakiefer.slipbox.domain.entity.SlipNote;
 import com.saschakiefer.slipbox.domain.vo.SlipNoteId;
 import lombok.NoArgsConstructor;
 
+import java.io.IOException;
+
 @NoArgsConstructor
 public class CreateSlipNoteInputPort implements CreateSlipNoteUseCase {
     SlipNoteManagementOutputPort slipNoteManagement;
@@ -32,7 +34,11 @@ public class CreateSlipNoteInputPort implements CreateSlipNoteUseCase {
                 .parent(parent)
                 .build();
 
-        slipNoteManagement.persistSlipNote(newSlipNote);
+        try {
+            slipNoteManagement.persistSlipNote(newSlipNote);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
         return newSlipNote;
     }
@@ -46,7 +52,11 @@ public class CreateSlipNoteInputPort implements CreateSlipNoteUseCase {
                 .title(title)
                 .build();
 
-        slipNoteManagement.persistSlipNote(newSlipNote);
+        try {
+            slipNoteManagement.persistSlipNote(newSlipNote);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
         return newSlipNote;
     }
