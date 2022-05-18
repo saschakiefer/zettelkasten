@@ -32,6 +32,8 @@ public class CreateSlipNoteInputPort implements CreateSlipNoteUseCase {
                 .parent(parent)
                 .build();
 
+        slipNoteManagement.persistSlipNote(newSlipNote);
+
         return newSlipNote;
     }
 
@@ -39,9 +41,13 @@ public class CreateSlipNoteInputPort implements CreateSlipNoteUseCase {
     public SlipNote createSlipNote(String title) {
         SlipNoteId newId = slipNoteManagement.retrieveNextRootId();
 
-        return SlipNote.builder()
+        SlipNote newSlipNote = SlipNote.builder()
                 .slipNoteId(newId)
                 .title(title)
                 .build();
+
+        slipNoteManagement.persistSlipNote(newSlipNote);
+
+        return newSlipNote;
     }
 }
