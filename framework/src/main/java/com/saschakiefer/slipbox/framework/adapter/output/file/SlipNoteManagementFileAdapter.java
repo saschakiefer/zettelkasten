@@ -1,7 +1,6 @@
 package com.saschakiefer.slipbox.framework.adapter.output.file;
 
-import com.saschakiefer.slipbox.application.ports.output.PersistSlipNoteOutputPort;
-import com.saschakiefer.slipbox.application.ports.output.RetrieveSlipNoteOutputPort;
+import com.saschakiefer.slipbox.application.ports.output.SlipNoteManagementOutputPort;
 import com.saschakiefer.slipbox.domain.entity.SlipNote;
 import com.saschakiefer.slipbox.domain.vo.SlipNoteId;
 import lombok.Getter;
@@ -12,7 +11,7 @@ import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.TreeSet;
 
-public class SlipBoxFileAdapter implements RetrieveSlipNoteOutputPort, PersistSlipNoteOutputPort {
+public class SlipNoteManagementFileAdapter implements SlipNoteManagementOutputPort {
     // Root Note Patter: "# - Filename"
     String ROOT_NOTE_PATTERN = "\\d\\s-\\s.*";
 
@@ -31,9 +30,9 @@ public class SlipBoxFileAdapter implements RetrieveSlipNoteOutputPort, PersistSl
         TreeSet<String> idList = new TreeSet<>();
 
         try {
-            Files.walkFileTree(Paths.get(slipBoxDir), new SimpleFileVisitor<Path>() {
+            Files.walkFileTree(Paths.get(slipBoxDir), new SimpleFileVisitor<>() {
                 @Override
-                public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+                public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) {
                     if (!Files.isDirectory(file) && file.getFileName().toString().matches(ROOT_NOTE_PATTERN)) {
                         String[] components = file.getFileName().toString().split(SlipNote.DELIMITER);
                         idList.add(components[0]);

@@ -1,6 +1,6 @@
 package com.saschakiefer.slipbox.application.ports.input;
 
-import com.saschakiefer.slipbox.application.ports.output.RetrieveSlipNoteOutputPort;
+import com.saschakiefer.slipbox.application.ports.output.SlipNoteManagementOutputPort;
 import com.saschakiefer.slipbox.domain.entity.SlipNote;
 import com.saschakiefer.slipbox.domain.exception.GenericSpecificationException;
 import com.saschakiefer.slipbox.domain.vo.SlipNoteId;
@@ -31,7 +31,7 @@ class CreateSlipNoteInputPortTest {
             throw new RuntimeException(e);
         }
 
-        RetrieveSlipNoteOutputPort mockedOutputPort = mock(RetrieveSlipNoteOutputPort.class);
+        SlipNoteManagementOutputPort mockedOutputPort = mock(SlipNoteManagementOutputPort.class);
         when(mockedOutputPort.retrieveSlipNote(testNote.getSlipNoteId())).thenReturn(testNote);
 
         CreateSlipNoteInputPort inputPort = new CreateSlipNoteInputPort(mockedOutputPort);
@@ -50,7 +50,7 @@ class CreateSlipNoteInputPortTest {
                 .children(new TreeMap<>())
                 .build();
 
-        RetrieveSlipNoteOutputPort mockedOutputPort = mock(RetrieveSlipNoteOutputPort.class);
+        SlipNoteManagementOutputPort mockedOutputPort = mock(SlipNoteManagementOutputPort.class);
         when(mockedOutputPort.retrieveSlipNote(testNote.getSlipNoteId())).thenReturn(testNote);
 
         CreateSlipNoteInputPort inputPort = new CreateSlipNoteInputPort(mockedOutputPort);
@@ -63,7 +63,7 @@ class CreateSlipNoteInputPortTest {
 
     @Test
     void createSlipNote_WithoutParent_ReturnsNewSlipNote() {
-        RetrieveSlipNoteOutputPort mockedOutputPort = mock(RetrieveSlipNoteOutputPort.class);
+        SlipNoteManagementOutputPort mockedOutputPort = mock(SlipNoteManagementOutputPort.class);
         when(mockedOutputPort.retrieveNextRootId()).thenReturn(new SlipNoteId("3"));
 
         CreateSlipNoteInputPort inputPort = new CreateSlipNoteInputPort(mockedOutputPort);
