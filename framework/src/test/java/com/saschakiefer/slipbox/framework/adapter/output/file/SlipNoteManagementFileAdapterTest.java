@@ -11,18 +11,22 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class SlipNoteManagementFileAdapterTest {
+    SlipNoteManagementFileAdapter fileAdapter;
 
     @AfterAll
-    static void cleanUp() {
+    static void tearDown() {
         new File("./src/test/resources/slipbox/empty/1 - Persisted Test Note.md").delete();
+    }
+
+    @BeforeEach
+    public void init() {
+        fileAdapter = new SlipNoteManagementFileAdapter();
+        fileAdapter.setSlipBoxPath("./src/test/resources/slipbox/has-elements");
     }
 
     @Test
     @Order(1)
     void retrieveNextRootId_WithFilledSlipBox_ReturnsNextRootId() {
-        SlipNoteManagementFileAdapter fileAdapter = new SlipNoteManagementFileAdapter();
-        fileAdapter.setSlipBoxDir("./src/test/resources/slipbox/has-elements");
-
         SlipNoteId nextId = fileAdapter.retrieveNextRootId();
 
         assertNotNull(nextId);
@@ -32,14 +36,15 @@ class SlipNoteManagementFileAdapterTest {
     @Test
     @Order(2)
     void retrieveSlipNote_WithChildren_ReturnSlipNote() {
+        SlipNote slipNote = fileAdapter.retrieveSlipNote(new SlipNoteId("1"));
+
+        assertEquals("1", slipNote.getSlipNoteId().toString());
     }
 
     @Test
     @Order(3)
     void retrieveNextRootId_WithEmptySlipBox_ReturnsNextRootId() {
-        SlipNoteManagementFileAdapter fileAdapter = new SlipNoteManagementFileAdapter();
-        fileAdapter.setSlipBoxDir("./src/test/resources/slipbox/empty");
-
+        fileAdapter.setSlipBoxPath("./src/test/resources/slipbox/empty");
         SlipNoteId nextId = fileAdapter.retrieveNextRootId();
 
         assertNotNull(nextId);
@@ -49,9 +54,7 @@ class SlipNoteManagementFileAdapterTest {
     @Test
     @Order(4)
     void persistSlipNote_returnTrue() throws IOException {
-        SlipNoteManagementFileAdapter fileAdapter = new SlipNoteManagementFileAdapter();
-        fileAdapter.setSlipBoxDir("./src/test/resources/slipbox/empty");
-
+        fileAdapter.setSlipBoxPath("./src/test/resources/slipbox/empty");
         SlipNote testSlipNote = SlipNote.builder()
                 .slipNoteId(new SlipNoteId("1"))
                 .title("Persisted Test Note")

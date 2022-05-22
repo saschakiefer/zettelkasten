@@ -8,5 +8,8 @@ import lombok.Getter;
 @Builder
 @Getter
 public class Template {
+    // ToDO make configurable
+    public static final String PARENT_PREFIX = "_Vorgänger:_";
+
     private String template;
 }

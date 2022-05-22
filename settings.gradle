@@ -1,5 +1,0 @@
-rootProject.name = 'zettelkasten'
-include 'domain'
-include 'application'
-include 'framework'
-
