@@ -60,4 +60,9 @@ public class CreateSlipNoteInputPort implements CreateSlipNoteUseCase {
 
         return newSlipNote;
     }
+
+    @Override
+    public void setOutputPort(SlipNoteManagementOutputPort slipNoteManagementOutputPort) {
+        this.slipNoteManagement = slipNoteManagementOutputPort;
+    }
 }
