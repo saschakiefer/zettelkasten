@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.apache.commons.io.FileUtils;
 
+import javax.enterprise.context.ApplicationScoped;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -16,21 +17,13 @@ import java.nio.file.attribute.BasicFileAttributes;
 import java.util.TreeSet;
 
 @NoArgsConstructor
+@ApplicationScoped
 public class SlipNoteManagementFileAdapter implements SlipNoteManagementOutputPort {
     public static String FILE_EXTENSION = ".md";
-    private static SlipNoteManagementFileAdapter instance;
 
     @Getter
     @Setter
     String slipBoxPath = "."; // ToDo add configuration from Quarkus
-
-    public static SlipNoteManagementFileAdapter getInstance() {
-        if (instance == null) {
-            instance = new SlipNoteManagementFileAdapter();
-        }
-
-        return instance;
-    }
 
     @Override
     public SlipNote retrieveSlipNote(SlipNoteId slipNoteId) {

@@ -6,15 +6,15 @@ import com.saschakiefer.slipbox.domain.entity.SlipNote;
 import com.saschakiefer.slipbox.domain.vo.SlipNoteId;
 import lombok.NoArgsConstructor;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import java.io.IOException;
 
 @NoArgsConstructor
+@ApplicationScoped
 public class CreateSlipNoteInputPort implements CreateSlipNoteUseCase {
+    @Inject
     SlipNoteManagementOutputPort slipNoteManagement;
-
-    public CreateSlipNoteInputPort(SlipNoteManagementOutputPort slipNoteManagement) {
-        this.slipNoteManagement = slipNoteManagement;
-    }
 
     @Override
     public SlipNote createSlipNote(String title, SlipNoteId parentSlipNoteId) {
@@ -59,10 +59,5 @@ public class CreateSlipNoteInputPort implements CreateSlipNoteUseCase {
         }
 
         return newSlipNote;
-    }
-
-    @Override
-    public void setOutputPort(SlipNoteManagementOutputPort slipNoteManagementOutputPort) {
-        this.slipNoteManagement = slipNoteManagementOutputPort;
     }
 }

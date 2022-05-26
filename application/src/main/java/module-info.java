@@ -5,5 +5,6 @@ module application {
     exports com.saschakiefer.slipbox.application.ports.input;
     exports com.saschakiefer.slipbox.application.usecase;
 
-    provides com.saschakiefer.slipbox.application.usecase.CreateSlipNoteUseCase with com.saschakiefer.slipbox.application.ports.input.CreateSlipNoteInputPort;
+    requires jakarta.enterprise.cdi.api;
+    requires jakarta.inject.api;
 }
