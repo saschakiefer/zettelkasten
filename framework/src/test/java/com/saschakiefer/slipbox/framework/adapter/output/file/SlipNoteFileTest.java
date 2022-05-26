@@ -1,5 +1,6 @@
 package com.saschakiefer.slipbox.framework.adapter.output.file;
 
+import com.saschakiefer.slipbox.domain.vo.SlipNoteId;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -11,7 +12,7 @@ class SlipNoteFileTest {
     public void constructor_withValidFileName_returnsSlipNoteFile() {
         SlipNoteFile file = new SlipNoteFile("1 - Test File.md");
 
-        assertEquals("1", file.getSlipNoteId());
+        assertEquals(new SlipNoteId("1"), file.getSlipNoteId());
         assertEquals("Test File", file.getTitle());
     }
 

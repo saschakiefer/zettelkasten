@@ -8,7 +8,6 @@ import com.saschakiefer.slipbox.domain.exception.SlipNoteNotFoundException;
 import com.saschakiefer.slipbox.domain.vo.SlipNoteId;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.filefilter.WildcardFileFilter;
 import org.apache.commons.lang3.SystemUtils;
 
@@ -20,12 +19,12 @@ import java.util.TreeMap;
 
 @Slf4j
 public class SlipNoteFactory {
-    public static SlipNote createFromFile(File file) {
+    public static SlipNote createFromFile(SlipNoteFile file) {
         return null;
     }
 
     public static SlipNote creteFromFileWithId(SlipNoteId slipNoteId, String slipBoxPath) {
-        File file = getSlipNoteFile(slipNoteId, slipBoxPath);
+        SlipNoteFile file = getSlipNoteFile(slipNoteId, slipBoxPath);
 
         String content;
         try {
@@ -34,16 +33,12 @@ public class SlipNoteFactory {
             throw new RuntimeException(e);
         }
 
-        String fileNameWithoutExt = FilenameUtils.removeExtension(file.getName());
-        String title = fileNameWithoutExt.split(SlipNote.DELIMITER)[1];
-
         SlipNote newNote = SlipNote.builder()
                 .slipNoteId(slipNoteId)
-                .title(title)
+                .title(file.getTitle())
                 .content(content)
                 .children(new TreeMap<>())
                 .build();
-
 
         for (SlipNoteId id : findChildren(slipNoteId, slipBoxPath)) {
             try {
@@ -84,9 +79,8 @@ public class SlipNoteFactory {
                     if (line == null) {
                         break;
                     }
-                    File f = new File(line);
-                    SlipNoteId newSlipNoteId = new SlipNoteId(f.getName().split(SlipNote.DELIMITER)[0]);
-                    foundIds.add(newSlipNoteId);
+                    SlipNoteFile f = new SlipNoteFile(line);
+                    foundIds.add(f.getSlipNoteId());
                 }
             } catch (IOException e) {
                 throw new RuntimeException(e);
@@ -98,7 +92,7 @@ public class SlipNoteFactory {
         return foundIds;
     }
 
-    private static File getSlipNoteFile(SlipNoteId slipNoteId, String slipBoxPath) {
+    private static SlipNoteFile getSlipNoteFile(SlipNoteId slipNoteId, String slipBoxPath) {
         File dir = new File(slipBoxPath);
         FileFilter fileFilter = new WildcardFileFilter(
                 slipNoteId.toString() + SlipNote.DELIMITER + "*" + SlipNoteFile.FILE_EXTENSION
@@ -112,6 +106,6 @@ public class SlipNoteFactory {
             throw new SlipNoteInconcistencyException(String.format("More than one slip note with id '%s' found", slipNoteId));
         }
 
-        return files[0];
+        return new SlipNoteFile(files[0].getPath());
     }
 }

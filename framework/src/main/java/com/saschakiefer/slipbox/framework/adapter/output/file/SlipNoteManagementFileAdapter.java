@@ -31,18 +31,25 @@ public class SlipNoteManagementFileAdapter implements SlipNoteManagementOutputPo
 
     @Override
     public SlipNoteId retrieveNextRootId() {
-        // Root Note Pattern: "# - Filename"
-        String ROOT_NOTE_PATTERN = "\\d\\s-\\s.*";
 
-        TreeSet<String> idList = new TreeSet<>();
+
+        TreeSet<SlipNoteId> idList = new TreeSet<>();
 
         try {
             Files.walkFileTree(Paths.get(slipBoxPath), new SimpleFileVisitor<>() {
                 @Override
                 public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) {
-                    if (!Files.isDirectory(file) && file.getFileName().toString().matches(ROOT_NOTE_PATTERN)) {
-                        String[] components = file.getFileName().toString().split(SlipNote.DELIMITER);
-                        idList.add(components[0]);
+                    SlipNoteFile slipNoteFile;
+
+                    // Files that don't match the expected pattern get ignored
+                    try {
+                        slipNoteFile = new SlipNoteFile(file.getFileName().toString());
+                    } catch (InvalidFilnameException e) {
+                        return FileVisitResult.CONTINUE;
+                    }
+
+                    if (!Files.isDirectory(file) && slipNoteFile.isRootSlipNote()) {
+                        idList.add(slipNoteFile.getSlipNoteId());
                     }
                     return FileVisitResult.CONTINUE;
                 }
@@ -54,7 +61,7 @@ public class SlipNoteManagementFileAdapter implements SlipNoteManagementOutputPo
         if (idList.size() == 0) {
             return new SlipNoteId("1");
         } else {
-            return new SlipNoteId(idList.last()).getNextPeerId();
+            return idList.last().getNextPeerId();
         }
     }
 

@@ -3,6 +3,8 @@ package com.saschakiefer.slipbox.framework.adapter.input.cli;
 import com.saschakiefer.slipbox.application.ports.output.SlipNoteManagementOutputPort;
 import com.saschakiefer.slipbox.application.usecase.CreateSlipNoteUseCase;
 import com.saschakiefer.slipbox.domain.entity.SlipNote;
+import com.saschakiefer.slipbox.framework.adapter.output.file.InvalidFilnameException;
+import com.saschakiefer.slipbox.framework.adapter.output.file.SlipNoteFile;
 import lombok.NoArgsConstructor;
 import picocli.CommandLine;
 
@@ -27,9 +29,19 @@ public class CreateNewSlipNoteCommand implements Runnable {
 
     @Override
     public void run() {
-        if (parent == null) {
-            SlipNote newNote = createSlipNoteUseCase.createSlipNote(title);
+        SlipNote newNote;
+
+        try {
+            if (parent == null) {
+                newNote = createSlipNoteUseCase.createSlipNote(title);
+            } else {
+                SlipNoteFile parentFile = new SlipNoteFile(parent);
+                newNote = createSlipNoteUseCase.createSlipNote(title, parentFile.getSlipNoteId());
+            }
+
+            System.out.printf("Slip note '%s' successfully created.%n", newNote.getFullTitle());
+        } catch (InvalidFilnameException e) {
+            System.out.println(e.getMessage());
         }
-        System.out.println(String.format("Create Slip note '%s' with parent '%s'", title, parent));
     }
 }
