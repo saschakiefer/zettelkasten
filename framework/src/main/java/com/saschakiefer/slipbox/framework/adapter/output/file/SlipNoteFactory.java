@@ -20,6 +20,10 @@ import java.util.TreeMap;
 
 @Slf4j
 public class SlipNoteFactory {
+    public static SlipNote createFromFile(File file) {
+        return null;
+    }
+
     public static SlipNote creteFromFileWithId(SlipNoteId slipNoteId, String slipBoxPath) {
         File file = getSlipNoteFile(slipNoteId, slipBoxPath);
 
@@ -97,7 +101,7 @@ public class SlipNoteFactory {
     private static File getSlipNoteFile(SlipNoteId slipNoteId, String slipBoxPath) {
         File dir = new File(slipBoxPath);
         FileFilter fileFilter = new WildcardFileFilter(
-                slipNoteId.toString() + SlipNote.DELIMITER + "*" + SlipNoteManagementFileAdapter.FILE_EXTENSION
+                slipNoteId.toString() + SlipNote.DELIMITER + "*" + SlipNoteFile.FILE_EXTENSION
         );
         File[] files = dir.listFiles(fileFilter);
 

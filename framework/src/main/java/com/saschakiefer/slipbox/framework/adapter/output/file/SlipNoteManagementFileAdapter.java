@@ -19,7 +19,6 @@ import java.util.TreeSet;
 @NoArgsConstructor
 @ApplicationScoped
 public class SlipNoteManagementFileAdapter implements SlipNoteManagementOutputPort {
-    public static String FILE_EXTENSION = ".md";
 
     @Getter
     @Setter
@@ -61,7 +60,7 @@ public class SlipNoteManagementFileAdapter implements SlipNoteManagementOutputPo
 
     @Override
     public void persistSlipNote(SlipNote slipNote) throws IOException {
-        File file = new File(slipBoxPath + File.separator + slipNote.getFullTitle() + FILE_EXTENSION);
+        File file = new File(slipBoxPath + File.separator + slipNote.getFullTitle() + SlipNoteFile.FILE_EXTENSION);
         FileUtils.writeStringToFile(file, slipNote.getContent(), StandardCharsets.UTF_8.name());
     }
 }
