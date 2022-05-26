@@ -23,6 +23,7 @@ public class App implements QuarkusApplication {
     @Override
     public int run(String... args) throws Exception {
         if (args.length == 0) {
+            args = new String[1];
             args[0] = "--help";
         }
         if (args.length == 1) {
