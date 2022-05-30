@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.apache.commons.io.FileUtils;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 import javax.enterprise.context.ApplicationScoped;
 import java.io.File;
@@ -22,7 +23,8 @@ public class SlipNoteManagementFileAdapter implements SlipNoteManagementOutputPo
 
     @Getter
     @Setter
-    String slipBoxPath = "."; // ToDo add configuration from Quarkus
+    @ConfigProperty(name = "slipbox.path")
+    String slipBoxPath;
 
     @Override
     public SlipNote retrieveSlipNote(SlipNoteId slipNoteId) {

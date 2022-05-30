@@ -9,6 +9,7 @@ module framework {
     requires quarkus.picocli;
     requires jakarta.enterprise.cdi.api;
     requires jakarta.inject.api;
+    requires microprofile.config.api;
 
     exports com.saschakiefer.slipbox.framework.adapter.input.cli;
 }

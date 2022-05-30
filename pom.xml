@@ -145,6 +145,7 @@
                             --add-opens domain/com.saschakiefer.slipbox.domain.vo=ALL-UNNAMED
                             --add-opens application/com.saschakiefer.slipbox.application.ports.input=ALL-UNNAMED
                             --add-opens framework/com.saschakiefer.slipbox.framework.adapter.output.file=ALL-UNNAMED
+                            --add-opens bootstrap/com.saschakiefer.slipbox.bootstrap.config=ALL-UNNAMED
                         </argLine>
                         <systemPropertyVariables>
                             <java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>

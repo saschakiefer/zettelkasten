@@ -1,4 +1,4 @@
-package com.saschakiefer;
+package com.saschakiefer.slipbox.bootstrap;
 
 import com.saschakiefer.slipbox.framework.adapter.input.cli.CreateNewSlipNoteCommand;
 import io.quarkus.picocli.runtime.annotations.TopCommand;

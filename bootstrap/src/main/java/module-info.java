@@ -1,11 +1,18 @@
-module com.saschakiefer.bootstrap {
+module bootstrap {
+    requires static lombok;
+
+    requires application;
     requires domain;
     requires framework;
-    requires application;
+
     requires info.picocli;
-    requires maven.shared.utils;
-    requires transitive quarkus.core;
     requires jakarta.inject.api;
+    requires maven.shared.utils;
+    requires microprofile.config.api;
+    requires org.apache.commons.io;
+    requires quarkus.core;
     requires quarkus.picocli;
+
+    exports com.saschakiefer.slipbox.bootstrap.config;
 
 }
