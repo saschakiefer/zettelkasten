@@ -12,7 +12,7 @@ class SipNoteFactoryTest {
 
     @Test
     void creteFromFileWithId_returnsSLipNote() {
-        SlipNote testNote = SlipNoteFactory.creteFromFileWithId(
+        SlipNote testNote = SlipNoteFactory.creteFromFileById(
                 new SlipNoteId("1"),
                 "./src/test/resources/slipbox/has-elements"
         );
@@ -31,7 +31,7 @@ class SipNoteFactoryTest {
     @Test
     void creteFromFileWithId_withNoneExistingId_thrwsExceptio() {
         Exception exception = assertThrows(SlipNoteNotFoundException.class, () -> {
-            SlipNote testNote = SlipNoteFactory.creteFromFileWithId(
+            SlipNote testNote = SlipNoteFactory.creteFromFileById(
                     new SlipNoteId("999"),
                     "./src/test/resources/slipbox/has-elements");
         });
@@ -40,7 +40,7 @@ class SipNoteFactoryTest {
     @Test
     void creteFromFileWithId_withDublicatId_thrwsExceptio() {
         Exception exception = assertThrows(SlipNoteInconcistencyException.class, () -> {
-            SlipNote testNote = SlipNoteFactory.creteFromFileWithId(
+            SlipNote testNote = SlipNoteFactory.creteFromFileById(
                     new SlipNoteId("1"),
                     "./src/test/resources/slipbox/inconsistent");
         });

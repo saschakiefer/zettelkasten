@@ -3,11 +3,9 @@ package com.saschakiefer.slipbox.framework.adapter.output.file;
 import com.saschakiefer.slipbox.application.ports.output.SlipNoteManagementOutputPort;
 import com.saschakiefer.slipbox.domain.entity.SlipNote;
 import com.saschakiefer.slipbox.domain.vo.SlipNoteId;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.apache.commons.io.FileUtils;
-import org.eclipse.microprofile.config.inject.ConfigProperty;
+import org.eclipse.microprofile.config.ConfigProvider;
 
 import javax.enterprise.context.ApplicationScoped;
 import java.io.File;
@@ -21,14 +19,11 @@ import java.util.TreeSet;
 @ApplicationScoped
 public class SlipNoteManagementFileAdapter implements SlipNoteManagementOutputPort {
 
-    @Getter
-    @Setter
-    @ConfigProperty(name = "slipbox.path")
-    String slipBoxPath;
+    public static final String SLIP_BOX_PATH = ConfigProvider.getConfig().getValue("slipbox.path", String.class);
 
     @Override
     public SlipNote retrieveSlipNote(SlipNoteId slipNoteId) {
-        return SlipNoteFactory.creteFromFileWithId(slipNoteId, slipBoxPath);
+        return SlipNoteFactory.creteFromFileById(slipNoteId, SLIP_BOX_PATH);
     }
 
     @Override
@@ -38,7 +33,7 @@ public class SlipNoteManagementFileAdapter implements SlipNoteManagementOutputPo
         TreeSet<SlipNoteId> idList = new TreeSet<>();
 
         try {
-            Files.walkFileTree(Paths.get(slipBoxPath), new SimpleFileVisitor<>() {
+            Files.walkFileTree(Paths.get(SLIP_BOX_PATH), new SimpleFileVisitor<>() {
                 @Override
                 public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) {
                     SlipNoteFile slipNoteFile;
@@ -69,7 +64,7 @@ public class SlipNoteManagementFileAdapter implements SlipNoteManagementOutputPo
 
     @Override
     public void persistSlipNote(SlipNote slipNote) throws IOException {
-        File file = new File(slipBoxPath + File.separator + slipNote.getFullTitle() + SlipNoteFile.FILE_EXTENSION);
+        File file = new File(SLIP_BOX_PATH + File.separator + slipNote.getFullTitle() + SlipNoteFile.FILE_EXTENSION);
         FileUtils.writeStringToFile(file, slipNote.getContent(), StandardCharsets.UTF_8.name());
     }
 }
