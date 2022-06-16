@@ -7,6 +7,7 @@ import com.saschakiefer.slipbox.domain.vo.SlipNoteId;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.SystemUtils;
+import org.eclipse.microprofile.config.ConfigProvider;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -19,12 +20,12 @@ import java.util.TreeMap;
 
 @Slf4j
 public class SlipNoteFactory {
-    public static SlipNote createFromFile(SlipNoteFile file) {
-        return null;
-    }
 
-    public static SlipNote creteFromFileById(SlipNoteId slipNoteId, String slipBoxPath) {
-        SlipNoteFile file = SlipNoteFileFactory.createById(slipNoteId, slipBoxPath);
+    public static SlipNote creteFromFileById(SlipNoteId slipNoteId) {
+        String slipBoxPath = ConfigProvider.getConfig().getValue("slipbox.path", String.class);
+        log.debug("Working in {}", slipBoxPath);
+
+        SlipNoteFile file = SlipNoteFileFactory.createById(slipNoteId);
 
         String content;
         try {
@@ -42,7 +43,7 @@ public class SlipNoteFactory {
 
         for (SlipNoteId id : findChildren(slipNoteId, slipBoxPath)) {
             try {
-                newNote.addChild(creteFromFileById(id, slipBoxPath));
+                newNote.addChild(creteFromFileById(id));
             } catch (GenericSpecificationException e) {
                 // The tree should be consistent, since it's automatically loaded based on the consistent patterns
                 // If not a generic exception is OK

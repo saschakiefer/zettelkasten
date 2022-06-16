@@ -4,6 +4,7 @@ import com.saschakiefer.slipbox.application.ports.output.SlipNoteManagementOutpu
 import com.saschakiefer.slipbox.domain.entity.SlipNote;
 import com.saschakiefer.slipbox.domain.vo.SlipNoteId;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.eclipse.microprofile.config.ConfigProvider;
 
@@ -17,23 +18,24 @@ import java.util.TreeSet;
 
 @NoArgsConstructor
 @ApplicationScoped
+@Slf4j
 public class SlipNoteManagementFileAdapter implements SlipNoteManagementOutputPort {
 
-    public static final String SLIP_BOX_PATH = ConfigProvider.getConfig().getValue("slipbox.path", String.class);
+    private final String slipBoxPath = ConfigProvider.getConfig().getValue("slipbox.path", String.class);
 
     @Override
     public SlipNote retrieveSlipNote(SlipNoteId slipNoteId) {
-        return SlipNoteFactory.creteFromFileById(slipNoteId, SLIP_BOX_PATH);
+        return SlipNoteFactory.creteFromFileById(slipNoteId);
     }
 
     @Override
     public SlipNoteId retrieveNextRootId() {
-
+        log.debug("Working in {}", slipBoxPath);
 
         TreeSet<SlipNoteId> idList = new TreeSet<>();
 
         try {
-            Files.walkFileTree(Paths.get(SLIP_BOX_PATH), new SimpleFileVisitor<>() {
+            Files.walkFileTree(Paths.get(slipBoxPath), new SimpleFileVisitor<>() {
                 @Override
                 public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) {
                     SlipNoteFile slipNoteFile;
@@ -64,7 +66,10 @@ public class SlipNoteManagementFileAdapter implements SlipNoteManagementOutputPo
 
     @Override
     public void persistSlipNote(SlipNote slipNote) throws IOException {
-        File file = new File(SLIP_BOX_PATH + File.separator + slipNote.getFullTitle() + SlipNoteFile.FILE_EXTENSION);
+        log.debug("Working in {}", slipBoxPath);
+
+        File file = new File(slipBoxPath + File.separator + slipNote.getFullTitle() + SlipNoteFile.FILE_EXTENSION);
+        log.debug("Writing new note to {}", file.getPath());
         FileUtils.writeStringToFile(file, slipNote.getContent(), StandardCharsets.UTF_8.name());
     }
 }

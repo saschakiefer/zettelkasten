@@ -30,6 +30,9 @@ public class PropertiesFileConfigSource implements ConfigSource {
                             e -> String.valueOf(e.getValue()),
                             (prev, next) -> next, HashMap::new
                     ));
+
+            log.debug("User Configuration:");
+            props.forEach((key, value) -> log.debug("\t{}={}", key, value));
         } catch (Exception e) {
             log.warn("No local config file found. Falling back to default.");
         }
