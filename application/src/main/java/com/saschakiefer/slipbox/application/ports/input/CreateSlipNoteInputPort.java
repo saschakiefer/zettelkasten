@@ -1,6 +1,7 @@
 package com.saschakiefer.slipbox.application.ports.input;
 
 import com.saschakiefer.slipbox.application.ports.output.SlipNoteManagementOutputPort;
+import com.saschakiefer.slipbox.application.ports.output.TemplateManagementOutputPort;
 import com.saschakiefer.slipbox.application.usecase.CreateSlipNoteUseCase;
 import com.saschakiefer.slipbox.domain.entity.SlipNote;
 import com.saschakiefer.slipbox.domain.vo.SlipNoteId;
@@ -15,6 +16,9 @@ import java.io.IOException;
 public class CreateSlipNoteInputPort implements CreateSlipNoteUseCase {
     @Inject
     SlipNoteManagementOutputPort slipNoteManagement;
+
+    @Inject
+    TemplateManagementOutputPort templateManagementOutputPort;
 
     @Override
     public SlipNote createSlipNote(String title, SlipNoteId parentSlipNoteId) {

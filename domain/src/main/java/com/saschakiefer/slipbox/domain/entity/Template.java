@@ -12,4 +12,8 @@ public class Template {
     public static final String PARENT_PREFIX = "_Vorgänger:_";
 
     private String template;
+
+    public String process(SlipNote slipNote) {
+        return template;
+    }
 }
