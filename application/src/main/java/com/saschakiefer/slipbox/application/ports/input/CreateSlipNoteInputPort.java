@@ -18,7 +18,7 @@ public class CreateSlipNoteInputPort implements CreateSlipNoteUseCase {
     SlipNoteManagementOutputPort slipNoteManagement;
 
     @Inject
-    TemplateManagementOutputPort templateManagementOutputPort;
+    TemplateManagementOutputPort templateManagement;
 
     @Override
     public SlipNote createSlipNote(String title, SlipNoteId parentSlipNoteId) {
@@ -38,6 +38,8 @@ public class CreateSlipNoteInputPort implements CreateSlipNoteUseCase {
                 .parent(parent)
                 .build();
 
+        newSlipNote.setContent(templateManagement.retrieveTemplate().process(newSlipNote));
+
         try {
             slipNoteManagement.persistSlipNote(newSlipNote);
         } catch (IOException e) {
@@ -55,6 +57,8 @@ public class CreateSlipNoteInputPort implements CreateSlipNoteUseCase {
                 .slipNoteId(newId)
                 .title(title)
                 .build();
+
+        newSlipNote.setContent(templateManagement.retrieveTemplate().process(newSlipNote));
 
         try {
             slipNoteManagement.persistSlipNote(newSlipNote);

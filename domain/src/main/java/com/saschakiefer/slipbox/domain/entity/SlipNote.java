@@ -23,8 +23,8 @@ public class SlipNote {
     @Setter
     private SlipNote parent;
 
-    // ToDo: Add Factory to replace Template with actual content
     @Builder.Default
+    @Setter
     private String content = "";
 
     private TreeMap<SlipNoteId, SlipNote> children;
