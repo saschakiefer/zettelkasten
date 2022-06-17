@@ -9,10 +9,14 @@ import com.saschakiefer.slipbox.framework.adapter.output.file.SlipNoteFile;
 import com.saschakiefer.slipbox.framework.adapter.output.file.SlipNoteFileFactory;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.SystemUtils;
+import org.springframework.web.util.UriUtils;
 import picocli.CommandLine;
 
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 @Dependent
 @NoArgsConstructor
@@ -23,10 +27,34 @@ public class CreateNewSlipNoteCommand implements Runnable {
     CreateSlipNoteUseCase createSlipNoteUseCase;
 
     @CommandLine.Parameters(index = "0", description = "Slip note title")
-    String title;
+    private String title;
 
     @CommandLine.ArgGroup(exclusive = true, multiplicity = "0..1")
-    ParentGroup parentGroup;
+    private ParentGroup parentGroup;
+
+    @CommandLine.Option(names = "--no-open", description = "Open document after creation in Obsidian (default: ${DEFAULT-VALUE}))", negatable = true)
+    private boolean openFileAfterCreation = true;
+
+    private static void openNoteInObsidian(SlipNote newNote) {
+        if (SystemUtils.IS_OS_MAC) {
+            System.out.println(CommandLine.Help.Ansi.AUTO.string("@|green Open Slip Note in Obsidian.|@"));
+
+            String url = "open?path=" + UriUtils.encodePath(SlipNoteFileFactory.createById(newNote.getSlipNoteId()).getPath(), StandardCharsets.UTF_8.name());
+            log.debug("Open note on obsidian://" + url);
+
+
+            try {
+                new ProcessBuilder("open", "obsidian://" + url)
+                        .redirectErrorStream(false)
+                        .start();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        } else {
+            System.out.println(CommandLine.Help.Ansi.AUTO.string("@|red Sorry, I'm only working on Mac.|@"));
+            System.exit(1);
+        }
+    }
 
     @Override
     public void run() {
@@ -59,7 +87,11 @@ public class CreateNewSlipNoteCommand implements Runnable {
         }
 
         System.out.println(CommandLine.Help.Ansi.AUTO.string(
-                String.format("@|green Slip note '%s' successfully created.|@", newNote.getFullTitle())));
+                String.format("@|green Slip Note '%s' successfully created.|@", newNote.getFullTitle())));
+
+        if (openFileAfterCreation) {
+            openNoteInObsidian(newNote);
+        }
     }
 
     static class ParentGroup {
