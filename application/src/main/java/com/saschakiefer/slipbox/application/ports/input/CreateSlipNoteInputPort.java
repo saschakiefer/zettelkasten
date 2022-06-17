@@ -42,11 +42,11 @@ public class CreateSlipNoteInputPort implements CreateSlipNoteUseCase {
 
         try {
             slipNoteManagement.persistSlipNote(newSlipNote);
+            return newSlipNote;
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
-        return newSlipNote;
     }
 
     @Override
