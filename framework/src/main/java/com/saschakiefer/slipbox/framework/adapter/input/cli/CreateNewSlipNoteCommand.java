@@ -22,7 +22,7 @@ public class CreateNewSlipNoteCommand implements Runnable {
     @Inject
     CreateSlipNoteUseCase createSlipNoteUseCase;
 
-    @CommandLine.Option(names = {"-t", "--title"}, description = "Slip note title", required = true)
+    @CommandLine.Parameters(index = "0", description = "Slip note title")
     String title;
 
     @CommandLine.ArgGroup(exclusive = true, multiplicity = "0..1")
