@@ -24,16 +24,8 @@ public class CreateSlipNoteInputPort implements CreateSlipNoteUseCase {
     public SlipNote createSlipNote(String title, SlipNoteId parentSlipNoteId) {
         SlipNote parent = slipNoteManagement.retrieveSlipNote(parentSlipNoteId);
 
-        SlipNoteId newId;
-
-        if (parent.getChildren().isEmpty()) {
-            newId = parent.getSlipNoteId().getFirstChildId();
-        } else {
-            newId = parent.getChildren().lastEntry().getValue().getSlipNoteId().getNextPeerId();
-        }
-
         SlipNote newSlipNote = SlipNote.builder()
-                .slipNoteId(newId)
+                .slipNoteId(parent.getNextChildId())
                 .title(title)
                 .parent(parent)
                 .build();

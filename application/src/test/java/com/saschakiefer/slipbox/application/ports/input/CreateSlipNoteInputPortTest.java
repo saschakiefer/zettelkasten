@@ -29,7 +29,7 @@ class CreateSlipNoteInputPortTest {
     @BeforeEach
     void setup() {
         // Mock Framework Template Manager -> empty template
-        TemplateManagementOutputPort templateManagement = mock(TestTemplateManagementOutputPort.class);
+        TemplateManagementOutputPort templateManagement = mock(TemplateManagementOutputPortTest.class);
         when(templateManagement.retrieveTemplate()).thenReturn(new Template(""));
         QuarkusMock.installMockForType(templateManagement, TemplateManagementOutputPort.class);
     }
@@ -51,7 +51,7 @@ class CreateSlipNoteInputPortTest {
         }
 
         // Mock Framework - Slip Note
-        SlipNoteManagementOutputPort slipNoteManagement = mock(TestSlipNoteManagementOutputPort.class);
+        SlipNoteManagementOutputPort slipNoteManagement = mock(SlipNoteManagementOutputPortTest.class);
         when(slipNoteManagement.retrieveSlipNote(testNote.getSlipNoteId())).thenReturn(testNote);
         QuarkusMock.installMockForType(slipNoteManagement, SlipNoteManagementOutputPort.class);
 
@@ -72,7 +72,7 @@ class CreateSlipNoteInputPortTest {
                 .build();
 
         // Mock Framework - Slip Note
-        SlipNoteManagementOutputPort slipNoteManagement = mock(TestSlipNoteManagementOutputPort.class);
+        SlipNoteManagementOutputPort slipNoteManagement = mock(SlipNoteManagementOutputPortTest.class);
         when(slipNoteManagement.retrieveSlipNote(testNote.getSlipNoteId())).thenReturn(testNote);
         QuarkusMock.installMockForType(slipNoteManagement, SlipNoteManagementOutputPort.class);
 
@@ -86,7 +86,7 @@ class CreateSlipNoteInputPortTest {
     @Test
     void createSlipNote_WithoutParent_ReturnsNewSlipNote() {
         // Mock Framework - Slip Note
-        SlipNoteManagementOutputPort slipNoteManagement = mock(TestSlipNoteManagementOutputPort.class);
+        SlipNoteManagementOutputPort slipNoteManagement = mock(SlipNoteManagementOutputPortTest.class);
         when(slipNoteManagement.retrieveNextRootId()).thenReturn(new SlipNoteId("3"));
         QuarkusMock.installMockForType(slipNoteManagement, SlipNoteManagementOutputPort.class);
 

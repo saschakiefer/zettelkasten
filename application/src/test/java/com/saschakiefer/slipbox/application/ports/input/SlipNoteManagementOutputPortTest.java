@@ -10,7 +10,7 @@ import java.io.IOException;
 
 @Mock
 @ApplicationScoped
-public class TestSlipNoteManagementOutputPort implements SlipNoteManagementOutputPort {
+public class SlipNoteManagementOutputPortTest implements SlipNoteManagementOutputPort {
 
     @Override
     public SlipNote retrieveSlipNote(SlipNoteId parentSlipNoteId) {

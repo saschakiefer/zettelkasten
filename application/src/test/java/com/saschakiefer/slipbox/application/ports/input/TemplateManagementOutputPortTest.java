@@ -8,7 +8,7 @@ import javax.enterprise.context.ApplicationScoped;
 
 @Mock
 @ApplicationScoped
-public class TestTemplateManagementOutputPort implements TemplateManagementOutputPort {
+public class TemplateManagementOutputPortTest implements TemplateManagementOutputPort {
     @Override
     public Template retrieveTemplate() {
         return null;

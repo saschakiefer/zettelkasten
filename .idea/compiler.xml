@@ -28,7 +28,7 @@
       <module name="bootstrap" options="-parameters" />
       <module name="domain" options="-parameters" />
       <module name="framework" options="-parameters" />
-      <module name="zettelkasten" options="-parameters" />
+      <module name="zettelkasten" options="" />
     </option>
   </component>
 </project>
