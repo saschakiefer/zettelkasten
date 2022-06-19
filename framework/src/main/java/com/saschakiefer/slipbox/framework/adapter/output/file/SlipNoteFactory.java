@@ -16,18 +16,40 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.TreeMap;
 
 @Slf4j
 public class SlipNoteFactory {
 
+    /**
+     * Creates a Slip Note from Disk based on an ID
+     * reads the parent (only one level up, not up to root)
+     *
+     * @param slipNoteId ID object for the Parent
+     * @return Slip Note
+     */
     public static SlipNote creteFromFileById(SlipNoteId slipNoteId) {
         String slipBoxPath = ConfigProvider.getConfig().getValue("slipbox.path", String.class);
         log.debug("Working in {}", slipBoxPath);
 
-        SlipNoteFile file = SlipNoteFileFactory.createById(slipNoteId);
+        // No Parent generated (happens implicitly for downstream generation
+        SlipNote newNote = createNoteOnlyWithChildren(slipNoteId, slipBoxPath);
 
+        /*
+         Load Parent
+         Needs to be extracted from the creation of the note "Downstream", because otherwise we end in a infinite
+         Loop of Loading Children and Loading the Root with Children
+        */
+        Template.getParentIdFromContent(newNote.getContent())
+                .ifPresent(id -> newNote.setParent(createNoteOnlyWithChildren(id, slipBoxPath)));
+
+        return newNote;
+
+    }
+
+    private static SlipNote createNoteOnlyWithChildren(SlipNoteId slipNoteId, String slipBoxPath) {
         String content;
+
+        SlipNoteFile file = SlipNoteFileFactory.createById(slipNoteId);
         try {
             content = FileUtils.readFileToString(file, StandardCharsets.UTF_8.name());
         } catch (IOException e) {
@@ -38,12 +60,12 @@ public class SlipNoteFactory {
                 .slipNoteId(slipNoteId)
                 .title(file.getTitle())
                 .content(content)
-                .children(new TreeMap<>())
                 .build();
 
+        // Load Children
         for (SlipNoteId id : findChildren(slipNoteId, slipBoxPath)) {
             try {
-                newNote.addChild(creteFromFileById(id));
+                newNote.addChild(createNoteOnlyWithChildren(id, slipBoxPath));
             } catch (GenericSpecificationException e) {
                 // The tree should be consistent, since it's automatically loaded based on the consistent patterns
                 // If not a generic exception is OK
@@ -61,6 +83,7 @@ public class SlipNoteFactory {
                 + slipNoteId
                 + SlipNote.DELIMITER
                 + "'";
+        log.debug("Parent search pattern for finding children: {}", parentRegex);
 
         List<SlipNoteId> foundIds = new ArrayList<>();
 

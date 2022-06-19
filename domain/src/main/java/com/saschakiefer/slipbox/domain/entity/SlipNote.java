@@ -8,11 +8,13 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Map;
 import java.util.TreeMap;
 
 @AllArgsConstructor
 @Builder
 @Getter
+@Setter
 public class SlipNote {
     public static String DELIMITER = " - ";
 
@@ -21,35 +23,37 @@ public class SlipNote {
     private String title;
     private SlipNote parent;
     @Builder.Default
-    @Setter
     private String content = "";
     @Builder.Default
     private TreeMap<SlipNoteId, SlipNote> children = new TreeMap<>();
 
-    public SlipNote getParent() {
-        return parent;
-    }
+    public void reassignToParen(SlipNote parent) {
+        assert parent != null;
 
-    public void setParent(SlipNote parent) {
+        SlipNote original = (SlipNote) clone();
 
-        TreeMap<SlipNoteId, SlipNote> childrenBackup = children;
-        SlipNoteId slipNoteIdBackup = slipNoteId;
-
+        // Update Parent Reference in Content
+        if (this.parent != null) {
+            // ToDo this should also consider the Template Prefix for parent using Regex
+            setContent(getContent().replaceFirst("\\[\\[" + this.parent.getFullTitle() + "]]",
+                    "\\[\\[" + parent.getFullTitle() + "]]"));
+        } else {
+            setContent(getContent().replaceFirst("\\[\\[]]", String.format("[[%s]]", parent.getFullTitle())));
+        }
         this.parent = parent;
         this.slipNoteId = parent.getNextChildId();
 
         children = new TreeMap<>();
-        childrenBackup.forEach((k, v) -> {
-            v.setParent(this);
-            // ToDo this should also consider the Template Prefix for parent using Regex
-            v.setContent(v.getContent().replaceFirst(slipNoteIdBackup.toString(), slipNoteId.toString()));
+        for (Map.Entry<SlipNoteId, SlipNote> entry : original.children.entrySet()) {
+            SlipNote v = entry.getValue();
+            v.reassignToParen(this);
 
             try {
                 addChild(v);
             } catch (GenericSpecificationException e) {
                 throw new RuntimeException(e);
             }
-        });
+        }
     }
 
     public void addChild(SlipNote slipNote) throws GenericSpecificationException {
@@ -57,7 +61,7 @@ public class SlipNote {
 
         notAChildSpec.check(slipNote);
 
-        slipNote.setParent(this);
+        slipNote.reassignToParen(this);
         children.put(slipNote.getSlipNoteId(), slipNote);
     }
 
@@ -66,7 +70,33 @@ public class SlipNote {
     }
 
     public SlipNoteId getNextChildId() {
+        return getChildren().isEmpty()
+                ? slipNoteId.getFirstChildId()
+                : children.lastEntry().getValue().getSlipNoteId().getNextPeerId();
+    }
 
-        return getChildren().isEmpty() ? slipNoteId.getFirstChildId() : children.lastEntry().getValue().getSlipNoteId().getNextPeerId();
+    @Override
+    protected Object clone() {
+        try {
+            return super.clone();
+        } catch (CloneNotSupportedException e) {
+            SlipNote slipNote = SlipNote.builder()
+                    .slipNoteId(new SlipNoteId(slipNoteId.toString()))
+                    .parent(parent)
+                    .title(title)
+                    .content(content)
+                    .build();
+
+            children.forEach((k, v) -> {
+                try {
+                    slipNote.addChild((SlipNote) v.clone());
+                } catch (GenericSpecificationException ex) {
+                    throw new RuntimeException(ex);
+                }
+
+            });
+            return slipNote;
+        }
+
     }
 }

@@ -21,7 +21,7 @@ public class ReassignSlipNoteInputPort implements ReassignSlipNoteUseCase {
         SlipNote toNote = slipNoteManagement.retrieveSlipNote(to);
         SlipNote assigneeNote = slipNoteManagement.retrieveSlipNote(assignee);
 
-        assigneeNote.setParent(toNote);
+        assigneeNote.reassignToParen(toNote);
 
         try {
             slipNoteManagement.persistSlipNote(assigneeNote);

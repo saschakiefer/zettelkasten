@@ -12,7 +12,7 @@ class TemplateTest {
 
     @BeforeEach
     public void setup() {
-        template = new Template("<% title %>,<% full_title %>,<% parent %>");
+        template = new Template("<% id %>,<% title %>,<% fullTitle %>,<% parentId %>,<% parentTitle %>,<% parentFullTitle %>");
     }
 
     @Test
@@ -22,7 +22,7 @@ class TemplateTest {
                 .title("Test Note")
                 .build();
 
-        assertEquals("Test Note,1 - Test Note,", template.process(testNote));
+        assertEquals("1,Test Note,1 - Test Note,,,", template.process(testNote));
     }
 
     @Test
@@ -38,6 +38,6 @@ class TemplateTest {
                 .parent(parentNote)
                 .build();
 
-        assertEquals("Test Note,1.1 - Test Note,1 - Parent", template.process(testNote));
+        assertEquals("1.1,Test Note,1.1 - Test Note,1,Parent,1 - Parent", template.process(testNote));
     }
 }

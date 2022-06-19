@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class SipNoteFactoryTest {
 
     @Test
-    void creteFromFileWithId_returnsSLipNote() {
+    void createFromFileWithId_returnsSlipNote() {
         SlipNote testNote = SlipNoteFactory.creteFromFileById(
                 new SlipNoteId("1")
         );
@@ -25,7 +25,8 @@ class SipNoteFactoryTest {
         assertNotNull(testNote);
         assertEquals("1", testNote.getSlipNoteId().toString());
         assertEquals("1 - Test Root 1", testNote.getFullTitle());
-        assertEquals("_Vorgänger:_", testNote.getContent());
+        assertEquals("_Vorgänger:_ [[]]", testNote.getContent());
+        assertNull(testNote.getParent());
         assertEquals(2, testNote.getChildren().size());
 
         SlipNoteId key = new SlipNoteId("1.2");
@@ -34,7 +35,20 @@ class SipNoteFactoryTest {
     }
 
     @Test
-    void creteFromFileWithId_withNoneExistingId_thrwsExceptio() {
+    void createFromFileWithId_noteWithParent_returnsSlipNoteWithParent() {
+        SlipNote testNote = SlipNoteFactory.creteFromFileById(
+                new SlipNoteId("1.2.1")
+        );
+
+        assertNotNull(testNote);
+        assertNotNull(testNote.getParent());
+
+        assertEquals("1.2.1", testNote.getSlipNoteId().toString());
+        assertEquals("1.2", testNote.getParent().getSlipNoteId().toString());
+    }
+
+    @Test
+    void createFromFileWithId_withNoneExistingId_thrwsExceptio() {
         assertThrows(SlipNoteNotFoundException.class, () -> SlipNoteFactory.creteFromFileById(
                 new SlipNoteId("999")
         ));

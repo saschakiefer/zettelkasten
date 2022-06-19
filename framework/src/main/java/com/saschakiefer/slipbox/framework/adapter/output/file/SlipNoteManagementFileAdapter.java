@@ -71,5 +71,13 @@ public class SlipNoteManagementFileAdapter implements SlipNoteManagementOutputPo
         File file = new File(slipBoxPath + File.separator + slipNote.getFullTitle() + SlipNoteFile.FILE_EXTENSION);
         log.debug("Writing new note to {}", file.getPath());
         FileUtils.writeStringToFile(file, slipNote.getContent(), StandardCharsets.UTF_8.name());
+
+        slipNote.getChildren().forEach((k, v) -> {
+            try {
+                persistSlipNote(v);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
     }
 }

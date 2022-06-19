@@ -1,6 +1,7 @@
 package com.saschakiefer.slipbox.bootstrap;
 
 import com.saschakiefer.slipbox.framework.adapter.input.cli.CreateNewSlipNoteCommand;
+import com.saschakiefer.slipbox.framework.adapter.input.cli.ReassignSlipNoteCommand;
 import io.quarkus.picocli.runtime.annotations.TopCommand;
 import io.quarkus.runtime.QuarkusApplication;
 import io.quarkus.runtime.annotations.QuarkusMain;
@@ -14,7 +15,9 @@ import javax.inject.Inject;
 @CommandLine.Command(name = "zettelkasten",
         mixinStandardHelpOptions = true,
         version = "0.0.1",
-        subcommands = {CreateNewSlipNoteCommand.class})
+        subcommands = {
+                CreateNewSlipNoteCommand.class,
+                ReassignSlipNoteCommand.class})
 public class App implements QuarkusApplication {
 
     @Inject
