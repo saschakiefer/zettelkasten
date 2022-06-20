@@ -11,4 +11,6 @@ public interface SlipNoteManagementOutputPort {
     SlipNoteId retrieveNextRootId();
 
     void persistSlipNote(SlipNote slipNote) throws IOException;
+
+    void deleteSlipNote(SlipNoteId slipNoteId);
 }

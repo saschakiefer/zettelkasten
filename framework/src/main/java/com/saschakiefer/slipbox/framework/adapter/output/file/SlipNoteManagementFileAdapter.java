@@ -80,4 +80,15 @@ public class SlipNoteManagementFileAdapter implements SlipNoteManagementOutputPo
             }
         });
     }
+
+    @Override
+    public void deleteSlipNote(SlipNoteId slipNoteId) {
+        log.debug("Working in {}", slipBoxPath);
+        SlipNoteFile file = SlipNoteFileFactory.createById(slipNoteId);
+
+        if (file.delete())
+            log.debug("Successfully deleted {}", file.getPath());
+        else
+            log.warn("Could not delete {}", file.getPath());
+    }
 }
