@@ -26,4 +26,9 @@ public class SlipNoteManagementOutputPortTest implements SlipNoteManagementOutpu
     public void persistSlipNote(SlipNote slipNote) throws IOException {
 
     }
+
+    @Override
+    public void deleteSlipNote(SlipNoteId slipNoteId) {
+
+    }
 }
