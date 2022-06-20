@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
+import java.util.TreeMap;
 import java.util.TreeSet;
 
 @NoArgsConstructor
@@ -32,30 +33,7 @@ public class SlipNoteManagementFileAdapter implements SlipNoteManagementOutputPo
     public SlipNoteId retrieveNextRootId() {
         log.debug("Working in {}", slipBoxPath);
 
-        TreeSet<SlipNoteId> idList = new TreeSet<>();
-
-        try {
-            Files.walkFileTree(Paths.get(slipBoxPath), new SimpleFileVisitor<>() {
-                @Override
-                public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) {
-                    SlipNoteFile slipNoteFile;
-
-                    // Files that don't match the expected pattern get ignored
-                    try {
-                        slipNoteFile = new SlipNoteFile(file.getFileName().toString());
-                    } catch (InvalidFilnameException e) {
-                        return FileVisitResult.CONTINUE;
-                    }
-
-                    if (!Files.isDirectory(file) && slipNoteFile.isRootSlipNote()) {
-                        idList.add(slipNoteFile.getSlipNoteId());
-                    }
-                    return FileVisitResult.CONTINUE;
-                }
-            });
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        TreeSet<SlipNoteId> idList = getAllRootIds();
 
         if (idList.size() == 0) {
             return new SlipNoteId("1");
@@ -90,5 +68,44 @@ public class SlipNoteManagementFileAdapter implements SlipNoteManagementOutputPo
             log.debug("Successfully deleted {}", file.getPath());
         else
             log.warn("Could not delete {}", file.getPath());
+    }
+
+    @Override
+    public TreeMap<SlipNoteId, SlipNote> retrieveAllRootNotes() {
+        log.debug("Working in {}", slipBoxPath);
+
+        TreeMap<SlipNoteId, SlipNote> rootNotes = new TreeMap<>();
+
+        getAllRootIds().forEach(id -> rootNotes.put(id, SlipNoteFactory.creteFromFileById(id)));
+
+        return rootNotes;
+    }
+
+    private TreeSet<SlipNoteId> getAllRootIds() {
+        TreeSet<SlipNoteId> idList = new TreeSet<>();
+
+        try {
+            Files.walkFileTree(Paths.get(slipBoxPath), new SimpleFileVisitor<>() {
+                @Override
+                public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) {
+                    SlipNoteFile slipNoteFile;
+
+                    // Files that don't match the expected pattern get ignored
+                    try {
+                        slipNoteFile = new SlipNoteFile(file.getFileName().toString());
+                    } catch (InvalidFilnameException e) {
+                        return FileVisitResult.CONTINUE;
+                    }
+
+                    if (!Files.isDirectory(file) && slipNoteFile.isRootSlipNote()) {
+                        idList.add(slipNoteFile.getSlipNoteId());
+                    }
+                    return FileVisitResult.CONTINUE;
+                }
+            });
+            return idList;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

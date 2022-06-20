@@ -69,7 +69,7 @@
             <artifactId>commons-lang3</artifactId>
             <version>3.12.0</version>
         </dependency>
-        
+
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
@@ -145,6 +145,7 @@
                             --add-opens domain/com.saschakiefer.slipbox.domain.vo=ALL-UNNAMED
                             --add-opens application/com.saschakiefer.slipbox.application.ports.input=ALL-UNNAMED
                             --add-opens framework/com.saschakiefer.slipbox.framework.adapter.output.file=ALL-UNNAMED
+                            --add-opens framework/com.saschakiefer.slipbox.framework.adapter.input.cli=ALL-UNNAMED
                             --add-opens bootstrap/com.saschakiefer.slipbox.bootstrap.config=ALL-UNNAMED
                         </argLine>
                         <systemPropertyVariables>

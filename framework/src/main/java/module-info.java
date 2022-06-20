@@ -13,4 +13,5 @@ module framework {
     requires microprofile.config.api;
 
     exports com.saschakiefer.slipbox.framework.adapter.input.cli;
+    exports com.saschakiefer.slipbox.framework.adapter.output.file;
 }

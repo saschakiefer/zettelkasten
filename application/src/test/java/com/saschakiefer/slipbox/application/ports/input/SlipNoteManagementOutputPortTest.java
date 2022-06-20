@@ -7,6 +7,7 @@ import io.quarkus.test.Mock;
 
 import javax.enterprise.context.ApplicationScoped;
 import java.io.IOException;
+import java.util.TreeMap;
 
 @Mock
 @ApplicationScoped
@@ -30,5 +31,10 @@ public class SlipNoteManagementOutputPortTest implements SlipNoteManagementOutpu
     @Override
     public void deleteSlipNote(SlipNoteId slipNoteId) {
 
+    }
+
+    @Override
+    public TreeMap<SlipNoteId, SlipNote> retrieveAllRootNotes() {
+        return null;
     }
 }
