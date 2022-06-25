@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.TreeMap;
 
 public interface SlipNoteManagementOutputPort {
-    SlipNote retrieveSlipNote(SlipNoteId parentSlipNoteId);
+    SlipNote retrieveSlipNote(SlipNoteId slipNoteId);
 
     SlipNoteId retrieveNextRootId();
 

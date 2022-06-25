@@ -17,7 +17,7 @@ import javax.inject.Inject;
 @Dependent
 @NoArgsConstructor
 @Slf4j
-@CommandLine.Command(name = "create", mixinStandardHelpOptions = true, description = "Create a new Slip Note")
+@CommandLine.Command(name = "create", aliases = {"c"}, mixinStandardHelpOptions = true, description = "Create a new Slip Note")
 public class CreateNewSlipNoteCommand implements Runnable {
     @Inject
     CreateSlipNoteUseCase createSlipNoteUseCase;

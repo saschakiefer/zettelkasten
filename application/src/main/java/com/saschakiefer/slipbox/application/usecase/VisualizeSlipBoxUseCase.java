@@ -7,4 +7,6 @@ import java.util.TreeMap;
 
 public interface VisualizeSlipBoxUseCase {
     TreeMap<SlipNoteId, SlipNote> retrieveAllNotesAsTree();
+
+    TreeMap<SlipNoteId, SlipNote> retrieveNoteAsTree(SlipNoteId slipNoteId);
 }

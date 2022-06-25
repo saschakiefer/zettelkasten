@@ -13,7 +13,7 @@ import javax.inject.Inject;
 @Dependent
 @NoArgsConstructor
 @Slf4j
-@CommandLine.Command(name = "reassign", mixinStandardHelpOptions = true, description = "Reassign Slip Note to new Parent Note")
+@CommandLine.Command(name = "reassign", aliases = {"r"}, mixinStandardHelpOptions = true, description = "Reassign Slip Note to new Parent Note")
 public class ReassignSlipNoteCommand implements Runnable {
     @Inject
     ReassignSlipNoteUseCase reassignSlipNoteUseCase;
@@ -24,8 +24,8 @@ public class ReassignSlipNoteCommand implements Runnable {
     @CommandLine.Parameters(index = "1", description = "Slip Note ID of new parent")
     private String to;
 
-    @CommandLine.Option(names = "--no-open", description = "Open document after creation in Obsidian (default: ${DEFAULT-VALUE}))", negatable = true)
-    private boolean openFileAfterCreation = true;
+    @CommandLine.Option(names = "--open", description = "Open document after creation in Obsidian (default: ${DEFAULT-VALUE}))", negatable = true)
+    private boolean openFileAfterCreation = false;
 
     @Override
     public void run() {

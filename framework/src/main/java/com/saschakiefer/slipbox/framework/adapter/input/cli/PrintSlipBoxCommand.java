@@ -4,19 +4,17 @@ import com.saschakiefer.slipbox.application.ports.output.SlipNotePresenterOutput
 import com.saschakiefer.slipbox.application.usecase.VisualizeSlipBoxUseCase;
 import com.saschakiefer.slipbox.domain.entity.SlipNote;
 import com.saschakiefer.slipbox.domain.vo.SlipNoteId;
-import com.saschakiefer.slipbox.framework.adapter.output.file.SlipNoteFactory;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import picocli.CommandLine;
 
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
-import java.util.TreeMap;
 
 @Dependent
 @NoArgsConstructor
 @Slf4j
-@CommandLine.Command(name = "print", mixinStandardHelpOptions = true, description = "Print the slip box as tree.")
+@CommandLine.Command(name = "print", aliases = {"p"}, mixinStandardHelpOptions = true, description = "Print the slip box as tree.")
 public class PrintSlipBoxCommand implements Runnable {
     @Inject
     VisualizeSlipBoxUseCase visualizeSlipBoxUseCase;
@@ -41,18 +39,14 @@ public class PrintSlipBoxCommand implements Runnable {
                     .children(visualizeSlipBoxUseCase.retrieveAllNotesAsTree())
                     .build();
         else {
-            SlipNote startNoteObject = SlipNoteFactory.creteFromFileById(new SlipNoteId(startNote));
-
-            TreeMap<SlipNoteId, SlipNote> startNoteAsMap = new TreeMap<>();
-            startNoteAsMap.put(startNoteObject.getSlipNoteId(), startNoteObject);
-
             slipBox = SlipNote.builder()
                     .title("Slip Box")
                     .slipNoteId(new SlipNoteId("0"))
-                    .children(startNoteAsMap)
+                    .children(visualizeSlipBoxUseCase.retrieveNoteAsTree(new SlipNoteId(startNote)))
                     .build();
         }
 
         slipNotePresenter.present(slipBox, rootOnly);
     }
+
 }
