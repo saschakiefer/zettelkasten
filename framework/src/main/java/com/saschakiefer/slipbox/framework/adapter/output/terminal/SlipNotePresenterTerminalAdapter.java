@@ -26,17 +26,20 @@ public class SlipNotePresenterTerminalAdapter implements SlipNotePresenterOutput
     }
 
     @Override
-    public void present(SlipNote note) {
-        System.out.println(CommandLine.Help.Ansi.AUTO.string(noteToString(note)));
+    public void present(SlipNote note, boolean rootNoteOnly) {
+        System.out.println(CommandLine.Help.Ansi.AUTO.string(noteToString(note, rootNoteOnly)));
     }
 
-    private String noteToString(SlipNote note) {
+    private String noteToString(SlipNote note, boolean rootNoteOnly) {
         StringBuilder buffer = new StringBuilder(100);
-        print(note, buffer, "", "");
+        print(note, buffer, "", "", rootNoteOnly);
         return buffer.toString();
     }
 
-    private void print(SlipNote note, StringBuilder buffer, String prefix, String childrenPrefix) {
+    private void print(SlipNote note, StringBuilder buffer, String prefix, String childrenPrefix, boolean rootNoteOnly) {
+        if (rootNoteOnly && !note.getSlipNoteId().isRoot())
+            return;
+
         buffer.append("@|faint,white ").append(prefix).append("|@ ");
         buffer.append(formatTitle(note));
         buffer.append(formatId(note));
@@ -45,9 +48,9 @@ public class SlipNotePresenterTerminalAdapter implements SlipNotePresenterOutput
         for (Iterator<SlipNote> it = note.getChildren().values().iterator(); it.hasNext(); ) {
             SlipNote next = it.next();
             if (it.hasNext()) {
-                print(next, buffer, childrenPrefix + "├── ", childrenPrefix + "│   ");
+                print(next, buffer, childrenPrefix + "├── ", childrenPrefix + "│   ", rootNoteOnly);
             } else {
-                print(next, buffer, childrenPrefix + "└── ", childrenPrefix + "    ");
+                print(next, buffer, childrenPrefix + "└── ", childrenPrefix + "    ", rootNoteOnly);
             }
         }
     }

@@ -22,8 +22,11 @@ public class PrintSlipBoxCommand implements Runnable {
     @Inject
     SlipNotePresenterOutputPort slipNotePresenter;
 
-    @CommandLine.Option(names = {"-r", "--root-only"}, description = "Only print root notes", required = false)
-    String parentFile;
+    @CommandLine.Parameters(index = "0", description = "Start note (default: 0 = all notes", defaultValue = "0")
+    String startNote;
+
+    @CommandLine.Option(names = {"-r", "--root-only"}, description = "Only print root notes")
+    boolean rootOnly;
 
     @Override
     public void run() {
@@ -34,6 +37,6 @@ public class PrintSlipBoxCommand implements Runnable {
                 .children(visualizeSlipBoxUseCase.retrieveAllNotesAsTree())
                 .build();
 
-        slipNotePresenter.present(slipBox);
+        slipNotePresenter.present(slipBox, rootOnly);
     }
 }
