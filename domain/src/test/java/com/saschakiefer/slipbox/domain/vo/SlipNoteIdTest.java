@@ -3,8 +3,7 @@ package com.saschakiefer.slipbox.domain.vo;
 import com.saschakiefer.slipbox.domain.exception.InvalidIdException;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 class SlipNoteIdTest {
 
@@ -49,5 +48,18 @@ class SlipNoteIdTest {
         assertThrows(InvalidIdException.class, () -> new SlipNoteId("1.a.1"));
         assertThrows(InvalidIdException.class, () -> new SlipNoteId("value"));
         assertThrows(InvalidIdException.class, () -> new SlipNoteId("1.-1.1"));
+    }
+
+    @Test
+    void isRoot() {
+        assertTrue(new SlipNoteId("1").isRoot());
+        assertFalse(new SlipNoteId("1.1").isRoot());
+    }
+
+    @Test
+    void getLevel() {
+        assertEquals(0, new SlipNoteId("1").getLevel());
+        assertEquals(1, new SlipNoteId("1.2").getLevel());
+        assertEquals(2, new SlipNoteId("1.2.1").getLevel());
     }
 }

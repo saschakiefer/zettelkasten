@@ -33,7 +33,6 @@ public class SlipNoteFile extends File {
     }
 
     public boolean isRootSlipNote() {
-        return FilenameUtils.getName(this.getPath())
-                .matches("\\d(" + SlipNote.DELIMITER + ").*" + FILE_EXTENSION.replace(".", "\\."));
+        return slipNoteId.isRoot();
     }
 }

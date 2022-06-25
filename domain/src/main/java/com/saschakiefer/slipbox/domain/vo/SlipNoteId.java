@@ -31,7 +31,6 @@ public class SlipNoteId implements Comparable<SlipNoteId> {
         int nextNumber;
         String peerId;
 
-
         if (lastDelimiterPosition == -1) {
             nextNumber = Integer.parseInt(id) + 1;
             peerId = String.valueOf(nextNumber);
@@ -41,6 +40,14 @@ public class SlipNoteId implements Comparable<SlipNoteId> {
         }
 
         return new SlipNoteId(peerId);
+    }
+
+    public boolean isRoot() {
+        return getLevel() == 0;
+    }
+
+    public int getLevel() {
+        return id.split("\\.", -1).length - 1;
     }
 
     @Override
