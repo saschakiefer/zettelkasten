@@ -7,9 +7,6 @@ on:
   push:
     branches: [ release ]
     tags: [ '*' ]
-  pull_request:
-    branches: [ release ]
-    tags: [ '*' ]
 
 jobs:
   buildOnMac:
@@ -23,7 +20,7 @@ jobs:
           graalvm-version: 22.1.0
           native-image: true
       - name: Build with Maven
-        run: mvn -B clean package native-image:native-image --file pom.xml
+        run: mvn -B clean package -Dnative --file pom.xml
       - name: Run UPX
         uses: svenstaro/upx-action@v2
         with:
