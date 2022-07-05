@@ -25,16 +25,23 @@ jobs:
 
       - name: Show extracted Maven project version
         run: echo ${{ steps.project.outputs.version }}
+        
       - name: Build with Maven
         run: mvn clean package -DskipTests -B -Dnative --file pom.xml
+        
       - name: Run UPX
         uses: svenstaro/upx-action@v2
         with:
           file: bootstrap/target/bootstrap-${{ steps.project.outputs.version }}-runner
           args: '-7'
-      - name: Upload artifacts
-        run: mkdir release && cp bootstrap/target/bootstrap-${{ steps.project.outputs.version }}-runner release/slipbox-macos
-      - uses: actions/upload-artifact@v2
+          
+      - name: Prepare Artifacts
+        run: mkdir staging && cp bootstrap/target/bootstrap-${{ steps.project.outputs.version }}-runner staging/slipbox-${{ steps.project.outputs.version }}-macos && chmod +x staging/slipbox-${{ steps.project.outputs.version }}-macos
+        
+      - name: Upload the artifacts
+        uses: skx/github-action-publish-binaries@release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          name: package
-          path: release
+          args: 'staging/slipbox-*'
+
