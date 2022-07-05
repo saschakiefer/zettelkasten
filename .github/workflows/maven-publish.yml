@@ -33,7 +33,7 @@ jobs:
           file: bootstrap/target/bootstrap-${{ steps.project.outputs.version }}-runner
           args: '-7'
       - name: Upload artifacts
-        run: mkdir release && cp bootstrap/target/bootstrap-${{ steps.project.outputs.version }}git add.-runner release/slipbox-macos
+        run: mkdir release && cp bootstrap/target/bootstrap-${{ steps.project.outputs.version }}-runner release/slipbox-macos
       - uses: actions/upload-artifact@v2
         with:
           name: package
