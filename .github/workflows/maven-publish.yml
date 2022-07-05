@@ -20,7 +20,7 @@ jobs:
           graalvm-version: 22.1.0
           native-image: true
       - name: Build with Maven
-        run: mvn clean package -Dnative --file pom.xml
+        run: mvn clean package -DskipTests -B -Dnative --file pom.xml
       - name: Run UPX
         uses: svenstaro/upx-action@v2
         with:
