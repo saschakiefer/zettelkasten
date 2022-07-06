@@ -48,12 +48,16 @@ jobs:
     runs-on: ubuntu-latest
     needs: [buildOnMac]
     steps:
+      - uses: actions/checkout@v2
+      - name: Extract Maven project version
+        run: echo ::set-output name=version::$(mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec)
+        id: project
       - name: Download Artifact
         uses: actions/download-artifact@v3
         with:
-          name: staging/slipbox-*
+          name: staging/slipbox-${{ steps.project.outputs.version }}-macos
       - name: Make executable
-        run: chmod +x slipbox-*
+        run: chmod +x slipbox-${{ steps.project.outputs.version }}-macos
       - name: Release
         uses: skx/github-action-publish-binaries@master
         env:
