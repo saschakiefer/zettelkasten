@@ -49,15 +49,16 @@ jobs:
     needs: [buildOnMac]
     steps:
       - name: Download Artifact
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
-          name: slipbox-*
-          path: staging
+          name: staging/slipbox-*
+      - name: Make executable
+        run: chmod +x slipbox-*
       - name: Release
         uses: skx/github-action-publish-binaries@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          args: 'staging/slipbox-*'
+          args: 'slipbox-*'
 
 
