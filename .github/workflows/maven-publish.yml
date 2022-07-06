@@ -60,12 +60,12 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: slipbox-${{ steps.project.outputs.version }}-macos
-          
-      - name: Display structure of downloaded files
-        run: ls -R
-          
+                    
       - name: Make executable
         run: chmod +x slipbox-${{ steps.project.outputs.version }}-macos
+      
+      - name: Display structure of downloaded files
+        run: ls -al
         
       - uses: "marvinpinto/action-automatic-releases@latest"
         with:
@@ -75,9 +75,9 @@ jobs:
           files: |
             slipbox-*
         
-#       - name: Release
-#         uses: skx/github-action-publish-binaries@master
-#         env:
-#           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#         with:
-#           args: 'slipbox-*'
+      - name: Release
+        uses: skx/github-action-publish-binaries@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          args: 'slipbox-*'
