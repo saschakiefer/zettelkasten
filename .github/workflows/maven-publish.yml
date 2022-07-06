@@ -67,18 +67,13 @@ jobs:
       - name: Display structure of downloaded files
         run: ls -al
         
+      - name: Create zip archive
+        run: zip slipbox-${{ steps.project.outputs.version }}-macos.zip slipbox-${{ steps.project.outputs.version }}-macos
+        
       - uses: "marvinpinto/action-automatic-releases@latest"
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           prerelease: false
           automatic_release_tag: ${{ steps.project.outputs.version }}
           files: |
-            slipbox-*
-        
-      - name: Release
-        uses: skx/github-action-publish-binaries@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          releaseId: ${{ steps.project.outputs.version }}
-          args: 'slipbox-*'
+            slipbox-*.zip
