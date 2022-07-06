@@ -52,17 +52,24 @@ jobs:
       - name: Extract Maven project version
         run: echo ::set-output name=version::$(mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec)
         id: project
+
+      - name: Show extracted Maven project version
+        run: echo ${{ steps.project.outputs.version }}
+        
       - name: Download Artifact
         uses: actions/download-artifact@v3
         with:
-          name: staging/slipbox-${{ steps.project.outputs.version }}-macos
+          name: slipbox-${{ steps.project.outputs.version }}-macos
+          
+      - name: Display structure of downloaded files
+        run: ls -R
+          
       - name: Make executable
         run: chmod +x slipbox-${{ steps.project.outputs.version }}-macos
+        
       - name: Release
         uses: skx/github-action-publish-binaries@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           args: 'slipbox-*'
-
-
