@@ -70,6 +70,9 @@ jobs:
       - name: Create zip archive
         run: zip slipbox-${{ steps.project.outputs.version }}-macos.zip slipbox-${{ steps.project.outputs.version }}-macos
         
+      - name: Create tar.gz archive
+        run: tar -czf slipbox-${{ steps.project.outputs.version }}-macos.tar.gz slipbox-${{ steps.project.outputs.version }}-macos
+        
       - uses: "marvinpinto/action-automatic-releases@latest"
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
@@ -77,3 +80,4 @@ jobs:
           automatic_release_tag: ${{ steps.project.outputs.version }}
           files: |
             slipbox-*.zip
+            slipbox-*.tar.gz
