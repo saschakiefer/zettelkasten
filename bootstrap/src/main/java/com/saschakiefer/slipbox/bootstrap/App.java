@@ -17,7 +17,7 @@ import javax.inject.Inject;
 @CommandLine.Command(name = "zettelkasten",
         aliases = {"z"},
         mixinStandardHelpOptions = true,
-        version = "0.0.1",
+        version = "0.1.0",
         subcommands = {
                 CreateNewSlipNoteCommand.class,
                 ReassignSlipNoteCommand.class,
