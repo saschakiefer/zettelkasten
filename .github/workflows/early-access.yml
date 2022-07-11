@@ -48,7 +48,7 @@ jobs:
           args: '-7'
 
       - name: 'Create distribution'
-        run: ./mvnw --file pom.xml -pl bootstrap -am -Pdist package -DskipTests
+        run: ./mvnw -B --file pom.xml -pl bootstrap -am -Pdist package -DskipTests
 
       - name: 'Upload build artifact'
         uses: actions/upload-artifact@v2

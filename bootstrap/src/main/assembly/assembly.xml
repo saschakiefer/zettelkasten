@@ -28,7 +28,7 @@
     </formats>
     <files>
         <file>
-            <source>../LICENSE.txt</source>
+            <source>${project.basedir}/LICENSE.txt</source>
             <outputDirectory>./</outputDirectory>
         </file>
         <file>
