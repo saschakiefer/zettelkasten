@@ -37,6 +37,7 @@
     <files>
         <file>
             <source>../LICENSE.txt</source>
+            <filtered>true</filtered>
             <outputDirectory>./</outputDirectory>
         </file>
         <file>
