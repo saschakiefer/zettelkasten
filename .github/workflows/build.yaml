@@ -19,14 +19,8 @@ jobs:
         uses: actions/setup-java@v3
         with:
           java-version: '17'
-          distribution: 'corretto'
-
-      - name: 'Cache Maven packages'
-        uses: actions/cache@v1
-        with:
-          path: ~/.m2
-          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-          restore-keys: ${{ runner.os }}-m2
+          distribution: 'temurin'
+          cache: 'maven'
 
       - name: 'Build'
         run: ./mvnw -B --file pom.xml verify
