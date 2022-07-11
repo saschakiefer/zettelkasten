@@ -44,7 +44,7 @@
             <source>${project.build.directory}/${project.artifactId}-${project.version}-runner${executable-suffix}
             </source>
             <outputDirectory>./bin</outputDirectory>
-            <destName>zettelkasten${executable-suffix}</destName>
+            <destName>zl{executable-suffix}</destName>
             <fileMode>0755</fileMode>
         </file>
     </files>

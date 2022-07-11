@@ -268,7 +268,7 @@
                                         <releaseName>{{projectVersion}}</releaseName>
                                         <overwrite>true</overwrite>
                                         <changelog>
-                                            <formatted>ALWAYS</formatted>
+                                            <formatted>RELEASE</formatted>
                                             <format>- {{commitShortHash}} {{commitTitle}}</format>
                                             <preset>conventional-commits</preset>
                                             <contributors>
@@ -284,6 +284,9 @@
                                 <distributions>
                                     <zettelkasten>
                                         <type>NATIVE_IMAGE</type>
+                                        <brew>
+                                            <active>ALWAYS</active>
+                                        </brew>
                                         <artifacts>
                                             <artifact>
                                                 <path>
