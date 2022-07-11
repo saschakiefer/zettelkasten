@@ -15,11 +15,11 @@ jobs:
       - name: 'Check out repository'
         uses: actions/checkout@v2
 
-      - name: 'Set up Java'
-        uses: actions/setup-java@v2
+      - name: 'Set up Graal'
+        uses: graalvm/setup-graalvm@v1
         with:
+          version: '22.1.0'
           java-version: '17'
-          distribution: 'zulu'
 
       - name: 'Cache Maven packages'
         uses: actions/cache@v1

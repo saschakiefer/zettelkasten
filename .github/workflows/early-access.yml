@@ -48,7 +48,9 @@ jobs:
           args: '-7'
 
       - name: 'Debug'
-        run: ls -R
+        run: |
+          ls -R
+          pwd
 
       - name: 'Create distribution'
         run: ./mvnw -B --file pom.xml -pl bootstrap -am -Pdist package -DskipTests
@@ -78,7 +80,7 @@ jobs:
       - name: 'Set up Java'
         uses: actions/setup-java@v2
         with:
-          java-version: 11
+          java-version: '11'
           distribution: 'zulu'
 
       - name: 'Cache Maven packages'
