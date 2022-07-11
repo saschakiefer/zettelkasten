@@ -32,7 +32,7 @@
             <outputDirectory>./</outputDirectory>
         </file>
         <file>
-            <source>${project.build.directory}/bootstrap-${project.version}-runner${executable-suffix}
+            <source>${project.build.directory}/${project.artifactId}-${project.version}-runner${executable-suffix}
             </source>
             <outputDirectory>./bin</outputDirectory>
             <destName>zettelkasten${executable-suffix}</destName>

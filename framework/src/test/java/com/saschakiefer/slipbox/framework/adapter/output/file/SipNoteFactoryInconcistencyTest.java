@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 class SipNoteFactoryInconcistencyTest {
 
     @Test
-    void creteFromFileWithId_withDublicatId_thrwsExceptio() {
+    void creteFromFileWithId_withDublicatId_throwsException() {
         assertThrows(SlipNoteInconcistencyException.class, () -> SlipNoteFactory.creteFromFileById(
                 new SlipNoteId("1")
         ));
