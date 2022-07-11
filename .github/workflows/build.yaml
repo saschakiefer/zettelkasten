@@ -23,4 +23,4 @@ jobs:
           cache: 'maven'
 
       - name: 'Build'
-        run: ./mvnw -B --file pom.xml verify
+        run: ./mvnw -B -DskipTests --file pom.xml verify
