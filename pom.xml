@@ -268,7 +268,7 @@
                                         <releaseName>{{projectVersion}}</releaseName>
                                         <overwrite>true</overwrite>
                                         <changelog>
-                                            <formatted>RELEASE</formatted>
+                                            <formatted>ALWAYS</formatted>
                                             <format>- {{commitShortHash}} {{commitTitle}}</format>
                                             <preset>conventional-commits</preset>
                                             <contributors>
@@ -282,10 +282,10 @@
                                     </github>
                                 </release>
                                 <distributions>
-                                    <zettelkasten>
+                                    <zl>
                                         <type>NATIVE_IMAGE</type>
                                         <brew>
-                                            <active>ALWAYS</active>
+                                            <active>RELEASE</active>
                                             <commitAuthor>
                                                 <name>saschakiefer</name>
                                                 <email>mail@sascha-kiefer.de</email>
@@ -300,7 +300,7 @@
                                                 <platform>osx-x86_64</platform>
                                             </artifact>
                                         </artifacts>
-                                    </zettelkasten>
+                                    </zl>
                                 </distributions>
                             </jreleaser>
                         </configuration>
