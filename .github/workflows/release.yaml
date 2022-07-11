@@ -119,8 +119,8 @@ jobs:
         with:
           name: artifacts
           path: |
-            target/distributions/*.zip
-            target/distributions/*.tar.gz
+            bootstrap/target/distributions/*.zip
+            bootstrap/target/distributions/*.tar.gz
 
   # Collect all executables and release
   release:
