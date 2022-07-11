@@ -23,52 +23,10 @@
     <id>dist</id>
     <moduleSets>
         <moduleSet>
+            <useAllReactorProjects>true</useAllReactorProjects>
             <includes>
                 <include>com.saschakiefer.slipbox:bootstrap</include>
             </includes>
-            <fileSets>
-                <fileSet>
-                    <excludes>
-                        <exclude>LICENSE.txt</exclude>
-                    </excludes>
-                </fileSet>
-            </fileSets>
-        </moduleSet>
-        <moduleSet>
-            <includes>
-                <include>com.saschakiefer.slipbox:domain</include>
-            </includes>
-            <fileSets>
-                <fileSet>
-                    <excludes>
-                        <exclude>**</exclude>
-                    </excludes>
-                </fileSet>
-            </fileSets>
-        </moduleSet>
-        <moduleSet>
-            <includes>
-                <include>com.saschakiefer.slipbox:application</include>
-            </includes>
-            <fileSets>
-                <fileSet>
-                    <excludes>
-                        <exclude>**</exclude>
-                    </excludes>
-                </fileSet>
-            </fileSets>
-        </moduleSet>
-        <moduleSet>
-            <includes>
-                <include>com.saschakiefer.slipbox:framework</include>
-            </includes>
-            <fileSets>
-                <fileSet>
-                    <excludes>
-                        <exclude>**</exclude>
-                    </excludes>
-                </fileSet>
-            </fileSets>
         </moduleSet>
     </moduleSets>
     <formats>
@@ -78,11 +36,11 @@
     </formats>
     <files>
         <file>
-            <source>LICENSE.txt</source>
+            <source>../LICENSE.txt</source>
             <outputDirectory>./</outputDirectory>
         </file>
         <file>
-            <source>bootstrap/target/bootstrap-${project.version}-runner${executable-suffix}
+            <source>${project.build.directory}/${project.artifactId}-${project.version}-runner${executable-suffix}
             </source>
             <outputDirectory>./bin</outputDirectory>
             <destName>zettelkasten${executable-suffix}</destName>

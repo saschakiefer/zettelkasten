@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.saschakiefer</groupId>
-    <artifactId>zettelkasten</artifactId>
+    <artifactId>slipbox</artifactId>
     <version>0.1.0</version>
     <packaging>pom</packaging>
 
@@ -197,28 +197,7 @@
                     <version>3.0.0-M5</version>
                 </plugin>
 
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-assembly-plugin</artifactId>
-                    <version>3.4.1</version>
-                    <configuration>
-                        <attach>false</attach>
-                        <appendAssemblyId>false</appendAssemblyId>
-                        <finalName>zettelkasten-${project.version}-${os.detected.classifier}</finalName>
-                        <outputDirectory>${project.build.directory}/distributions</outputDirectory>
-                        <workDirectory>${project.build.directory}/assembly/work</workDirectory>
-                        <skipAssembly>true</skipAssembly>
-                    </configuration>
-                    <executions>
-                        <execution>
-                            <id>make-distribution</id>
-                            <phase>package</phase>
-                            <goals>
-                                <goal>single</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                </plugin>
+
             </plugins>
         </pluginManagement>
     </build>
@@ -271,20 +250,6 @@
             <properties>
                 <skipTests>true</skipTests>
             </properties>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-assembly-plugin</artifactId>
-                        <configuration combine.self="append">
-                            <skipAssembly>false</skipAssembly>
-                            <descriptors>
-                                <descriptor>bootstrap/src/main/assembly/assembly.xml</descriptor>
-                            </descriptors>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
         </profile>
 
         <profile>
