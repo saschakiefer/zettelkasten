@@ -286,6 +286,10 @@
                                         <type>NATIVE_IMAGE</type>
                                         <brew>
                                             <active>ALWAYS</active>
+                                            <commitAuthor>
+                                                <name>saschakiefer</name>
+                                                <email>mail@sascha-kiefer.de</email>
+                                            </commitAuthor>
                                         </brew>
                                         <artifacts>
                                             <artifact>
