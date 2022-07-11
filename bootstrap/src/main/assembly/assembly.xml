@@ -21,6 +21,13 @@
         xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.0"
         xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.0 http://maven.apache.org/xsd/assembly-1.1.0.xsd">
     <id>dist</id>
+    <moduleSets>
+        <moduleSet>
+            <includes>
+                <include>com.saschakiefer:bootstrap</include>
+            </includes>
+        </moduleSet>
+    </moduleSets>
     <formats>
         <format>tar.gz</format>
         <format>zip</format>
@@ -28,7 +35,7 @@
     </formats>
     <files>
         <file>
-            <source>${project.basedir}/LICENSE.txt</source>
+            <source>../LICENSE.txt</source>
             <outputDirectory>./</outputDirectory>
         </file>
         <file>

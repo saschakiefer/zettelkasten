@@ -15,11 +15,11 @@ jobs:
       - name: 'Check out repository'
         uses: actions/checkout@v2
 
-      - name: 'Set up Graal'
-        uses: graalvm/setup-graalvm@v1
+      - name: 'Set up Java'
+        uses: actions/setup-java@v2
         with:
-          version: '22.1.0'
           java-version: '17'
+          distribution: 'corretto'
 
       - name: 'Cache Maven packages'
         uses: actions/cache@v1
@@ -29,4 +29,4 @@ jobs:
           restore-keys: ${{ runner.os }}-m2
 
       - name: 'Build'
-        run: ./mvnw -B --debug --file pom.xml verify
+        run: ./mvnw -B --file pom.xml verify
