@@ -47,6 +47,9 @@ jobs:
           file: bootstrap/target/bootstrap-${{ steps.project.outputs.version }}-runner
           args: '-7'
 
+      - name: 'Debug'
+        run: ls -R
+
       - name: 'Create distribution'
         run: ./mvnw -B --file pom.xml -pl bootstrap -am -Pdist package -DskipTests
 
