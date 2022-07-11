@@ -5,7 +5,7 @@
     <parent>
         <artifactId>slipbox</artifactId>
         <groupId>com.saschakiefer</groupId>
-        <version>0.1.3</version>
+        <version>0.1.3-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -14,13 +14,13 @@
         <dependency>
             <groupId>com.saschakiefer</groupId>
             <artifactId>domain</artifactId>
-            <version>0.1.3</version>
+            <version>0.1.3-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>com.saschakiefer</groupId>
             <artifactId>application</artifactId>
-            <version>0.1.3</version>
+            <version>0.1.3-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
