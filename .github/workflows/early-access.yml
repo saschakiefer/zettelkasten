@@ -87,5 +87,5 @@ jobs:
 
       - name: 'Release with JReleaser'
         env:
-          JRELEASER_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          JRELEASER_GITHUB_TOKEN: ${{ secrets.JRELEASER_HOMEBREW_GITHUB_TOKEN }}
         run: ./mvnw --file pom.xml -Prelease -DartifactsDir=artifacts jreleaser:full-release
